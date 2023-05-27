@@ -45,5 +45,5 @@ func main() {
 	}
 
 	sort.Ints(calorieCarried)
-  fmt.Println(calorieCarried[len(calorieCarried)-1])
+	fmt.Println(calorieCarried[len(calorieCarried)-1])
 }
