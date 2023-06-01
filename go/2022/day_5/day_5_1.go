@@ -15,14 +15,14 @@ func main() {
 
 	supplyStacksSlice := strings.Split(string(supplyStacks), "\n\n")
 	supplyStacksGraph, supplyStacksMoves := supplyStacksSlice[0], supplyStacksSlice[1]
-
 	supplyStacksGraphRows := strings.Split(supplyStacksGraph, "\n")
+
 	// build map of stacks
 	var mapStack = make(map[int][]string)
 	for i := 0; i < len(supplyStacksGraphRows)-1; i++ {
 		for j := 0; j < len(supplyStacksGraphRows[i]); j = j + 3 {
 			if supplyStacksGraphRows[i][j:j+3] != "   " {
-				mapStack[j/3] = append(mapStack[j/3], supplyStacksGraphRows[i][j:j+3])
+				mapStack[(j/4)+1] = append(mapStack[(j/4)+1], supplyStacksGraphRows[i][j:j+3])
 			}
 			if (j + 1) < len(supplyStacksGraphRows[i]) {
 				j++
@@ -35,15 +35,30 @@ func main() {
 	supplyStacksMovesRows := strings.Split(trimmedMoves, "\n")
 	for i := 0; i < len(supplyStacksMovesRows); i++ {
 		var moves = strings.Split(string(supplyStacksMovesRows[i]), " ")
-		transfers, transferFrom, transferTo := moves[1], moves[3], moves[5]
-		transfersInt, err := strconv.Atoi(transfers)
-		if err != nil {
-			fmt.Errorf("Connot convert value to int: %v, err")
+		transfers, transferFromStr, transferToStr := moves[1], moves[3], moves[5]
+		transfersInt, transfersErr := strconv.Atoi(transfers)
+		transferFromInt, transferFromErr := strconv.Atoi(transferFromStr)
+		transferToInt, transferToErr := strconv.Atoi(transferToStr)
+		if transfersErr == nil || transferFromErr == nil || transferToErr == nil {
+			var errSlice = [...]error{transfersErr, transferFromErr, transferToErr}
+			fmt.Errorf("Connot convert value to int: (%v)", errSlice)
 		}
 
+		// execute moves onto each stack
 		for j := 0; j < transfersInt; j++ {
-			fmt.Println(transferFrom, transferTo)
+			var popSlice = mapStack[transferFromInt]
+			poppedValue, popSlice := popSlice[0], popSlice[1:]
+			var pushSlice = mapStack[transferToInt]
+			pushSlice = append([]string{poppedValue}, pushSlice...)
+			mapStack[transferFromInt] = popSlice
+			mapStack[transferToInt] = pushSlice
 		}
 	}
-	fmt.Println(mapStack)
+
+	// concat top of each stack together
+	var solution []string
+	for i := 1; i <= len(mapStack); i++ {
+		solution = append(solution, string(mapStack[i][0][1]))
+	}
+	fmt.Println(strings.Join(solution, ""))
 }
