@@ -3,9 +3,13 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math"
 	"strconv"
 	"strings"
 )
+
+var diskSpaceAvailable = 70000000
+var updateUnusedSpace = 30000000
 
 func main() {
 	commands, err := ioutil.ReadFile("day_7.txt")
@@ -58,12 +62,19 @@ func main() {
 		}
 	}
 
-	// sum directories with size < 100000
-	var solution = 0
-	for _, val := range directoryStorage {
-		if val <= 100000 {
-			solution = solution + val
+	// find smallest directory deletion that would free up required space for update
+	var remainingSpace = diskSpaceAvailable - directoryStorage["/"]
+	var spaceDeletedNeededForUpdate = updateUnusedSpace - remainingSpace
+	var smallestSize = math.MaxInt
+	var smallestDir string
+	for dir, size := range directoryStorage {
+		if spaceDeletedNeededForUpdate-size < 0 {
+			if smallestSize > size {
+				smallestSize = size
+				smallestDir = dir
+			}
 		}
 	}
-	fmt.Println(solution)
+	fmt.Println(smallestSize)
+	fmt.Println(smallestDir)
 }
