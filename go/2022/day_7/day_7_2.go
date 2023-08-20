@@ -1,8 +1,9 @@
-package main
+package day_7
 
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math"
 	"strconv"
 	"strings"
@@ -11,21 +12,20 @@ import (
 var diskSpaceAvailable = 70000000
 var updateUnusedSpace = 30000000
 
-func main() {
-	commands, err := ioutil.ReadFile("day_7.txt")
+func RunPart2(logger *log.Logger) {
+	commands, err := ioutil.ReadFile("./2022/day_7/day_7.txt")
 	if err != nil {
-		err = fmt.Errorf("unable to read file: %v", err)
-		fmt.Println(err)
+		logger.Fatalf("unable to read file: %v", err)
 	}
 
-	var commandLines = strings.Split(string(commands), "$")
-	var directoryStorage = make(map[string]int)
-	var currentDirectory = []string{}
+	commandLines := strings.Split(string(commands), "$")
+	directoryStorage := make(map[string]int)
+	currentDirectory := []string{}
 	for _, commandLine := range commandLines {
-		var commands = strings.Split(string(commandLine), "\n")
+		commands := strings.Split(string(commandLine), "\n")
 		if len(commands) > 1 {
-			var command = strings.TrimSpace(commands[0])
-			var splitCommand = strings.Split(command, " ")
+			command := strings.TrimSpace(commands[0])
+			splitCommand := strings.Split(command, " ")
 			if splitCommand[0] != "cd" && splitCommand[0] != "ls" {
 				continue
 			}
@@ -42,39 +42,39 @@ func main() {
 				}
 			}
 
-			// assume ls command, calculate current directory size
-			var lsOutputs = commands[1:]
-			var directoryFileSizeTotal = 0
-			for _, lsOutput := range lsOutputs {
-				var parsedLsOutput = strings.Split(lsOutput, " ")
-				maybeFileSize, maybeFileSizeErr := strconv.Atoi(parsedLsOutput[0])
-				if maybeFileSizeErr != nil {
-					err = fmt.Errorf("unable to parse value to integer: %v", parsedLsOutput[0])
+			// if ls command, calculate current directory size
+			directoryFileSizeTotal := 0
+			if splitCommand[0] == "ls" {
+				lsOutputs := commands[1:]
+				for _, lsOutput := range lsOutputs {
+					parsedLsOutput := strings.Split(lsOutput, " ")
+					maybeFileSize, maybeFileSizeErr := strconv.Atoi(parsedLsOutput[0])
+					if maybeFileSizeErr != nil {
+						continue
+					}
+					directoryFileSizeTotal = directoryFileSizeTotal + maybeFileSize
 				}
-				directoryFileSizeTotal = directoryFileSizeTotal + maybeFileSize
 			}
 
 			// distribute current directory size to current & parents directories
-			for i, _ := range currentDirectory {
-				var partialDirectory = strings.Join(currentDirectory[:i+1], "")
+			for i := range currentDirectory {
+				partialDirectory := strings.Join(currentDirectory[:i+1], "")
 				directoryStorage[partialDirectory] = directoryStorage[partialDirectory] + directoryFileSizeTotal
 			}
 		}
 	}
 
 	// find smallest directory deletion that would free up required space for update
-	var remainingSpace = diskSpaceAvailable - directoryStorage["/"]
-	var spaceDeletedNeededForUpdate = updateUnusedSpace - remainingSpace
-	var smallestSize = math.MaxInt
-	var smallestDir string
-	for dir, size := range directoryStorage {
+	remainingSpace := diskSpaceAvailable - directoryStorage["/"]
+	spaceDeletedNeededForUpdate := updateUnusedSpace - remainingSpace
+	smallestSize := math.MaxInt
+	for _, size := range directoryStorage {
 		if spaceDeletedNeededForUpdate-size < 0 {
 			if smallestSize > size {
 				smallestSize = size
-				smallestDir = dir
 			}
 		}
 	}
-	fmt.Println(smallestSize)
-	fmt.Println(smallestDir)
+
+	logger.Println(smallestSize)
 }

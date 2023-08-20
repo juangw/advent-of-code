@@ -1,24 +1,24 @@
-package main
+package day_8
 
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"strings"
 )
 
-func main() {
-	treeLines, err := ioutil.ReadFile("day_8.txt")
+func RunPart1(logger *log.Logger) {
+	treeLines, err := ioutil.ReadFile("./2022/day_8/day_8.txt")
 	if err != nil {
-		err = fmt.Errorf("unable to read file: %v", err)
-		fmt.Println(err)
+		logger.Fatalf("unable to read file: %v", err)
 	}
 
-	var splitTreeLinesSlice = strings.Split(string(treeLines), "\n")
-	var treeLinesSlice = splitTreeLinesSlice[:len(splitTreeLinesSlice)-1]
-	var visibleTreesLength = len(treeLinesSlice) * 2
-	var visibleTreesWidth = (len(treeLinesSlice[0]) - 2) * 2
-	var visibleTrees = visibleTreesLength + visibleTreesWidth
-	var innerVisibleTreeMap = make(map[string]int)
+	splitTreeLinesSlice := strings.Split(string(treeLines), "\n")
+	treeLinesSlice := splitTreeLinesSlice[:len(splitTreeLinesSlice)-1]
+	visibleTreesLength := len(treeLinesSlice) * 2
+	visibleTreesWidth := (len(treeLinesSlice[0]) - 2) * 2
+	visibleTrees := visibleTreesLength + visibleTreesWidth
+	innerVisibleTreeMap := make(map[string]int)
 	for row, treeLine := range treeLinesSlice {
 		if row == len(treeLine)-1 || row == 0 {
 			continue
@@ -28,7 +28,7 @@ func main() {
 				continue
 			}
 
-			var height = int(treeHeight - '0')
+			height := int(treeHeight - '0')
 
 			// scan left
 			for i := 0; i < col; i++ {
@@ -79,6 +79,7 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(innerVisibleTreeMap)
-	fmt.Println(visibleTrees + len(innerVisibleTreeMap))
+
+	// logger.Println(innerVisibleTreeMap)
+	logger.Println(visibleTrees + len(innerVisibleTreeMap))
 }

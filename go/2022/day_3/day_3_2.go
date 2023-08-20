@@ -1,8 +1,8 @@
-package main
+package day_3
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"strings"
 	"unicode"
 )
@@ -26,20 +26,20 @@ func chunkSlice(slice []string, numberOfCompartments int) [][]string {
 	return chunks
 }
 
-func main() {
-	rucksack, err := ioutil.ReadFile("day_3.txt")
+func RunPart2(logger *log.Logger) {
+	rucksack, err := ioutil.ReadFile("./2022/day_3/day_3.txt")
 	if err != nil {
-		fmt.Errorf("unable to read file: %v", err)
+		logger.Fatalf("unable to read file: %v", err)
 	}
 	trimmedRucksack := strings.TrimSpace(string(rucksack))
 
-	var totalSum = 0
+	totalSum := 0
 	rucksacks := strings.Split(trimmedRucksack, "\n")
 	compartments := chunkSlice(rucksacks, numberOfCompartments)
 	for i := 0; i < len(compartments); i++ {
-		var uniqueMap = make(map[string]int)
+		uniqueMap := make(map[string]int)
 		for j := 0; j < numberOfCompartments; j++ {
-			var currentWordUniqueMap = make(map[string]int)
+			currentWordUniqueMap := make(map[string]int)
 			for k := 0; k < len(compartments[i][j]); k++ {
 				currentCharByte := compartments[i][j][k]
 				compartmentChar := rune(currentCharByte)
@@ -67,5 +67,6 @@ func main() {
 		}
 		uniqueMap = make(map[string]int)
 	}
-	fmt.Println(totalSum)
+
+	logger.Println(totalSum)
 }

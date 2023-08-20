@@ -1,27 +1,27 @@
-package main
+package day_3
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"strings"
 	"unicode"
 )
 
-func main() {
-	rucksack, err := ioutil.ReadFile("day_3.txt")
+func RunPart1(logger *log.Logger) {
+	rucksack, err := ioutil.ReadFile("./2022/day_3/day_3.txt")
 	if err != nil {
-		fmt.Errorf("unable to read file: %v", err)
+		logger.Fatalf("unable to read file: %v", err)
 	}
 	trimmedRucksack := strings.TrimSpace(string(rucksack))
 
-	var totalSum = 0
+	totalSum := 0
 	rucksackItems := strings.Split(trimmedRucksack, "\n")
 	for i := 0; i < len(rucksackItems); i++ {
 		uniqueMap := make(map[string]int)
-		var rucksackItem = rucksackItems[i]
-		var splitIndex = len(rucksackItem) / 2
-		var firstCompartment = rucksackItem[0:splitIndex]
-		var secondCompartment = rucksackItem[splitIndex:]
+		rucksackItem := rucksackItems[i]
+		splitIndex := len(rucksackItem) / 2
+		firstCompartment := rucksackItem[0:splitIndex]
+		secondCompartment := rucksackItem[splitIndex:]
 		for i := 0; i < len(firstCompartment); i++ {
 			_, ok := uniqueMap[string(firstCompartment[i])]
 			if !ok {
@@ -42,5 +42,6 @@ func main() {
 		}
 		uniqueMap = make(map[string]int)
 	}
-	fmt.Println(totalSum)
+
+	logger.Println(totalSum)
 }
