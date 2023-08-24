@@ -42,10 +42,8 @@ func RunPart1(logger *log.Logger) {
 			}
 
 			// scan right
-			for i := col; i < len(treeLine); i++ {
-				if col == i {
-					continue
-				} else if int(treeLinesSlice[row][i]-'0') >= height {
+			for i := col + 1; i < len(treeLine); i++ {
+				if int(treeLinesSlice[row][i]-'0') >= height {
 					break
 				}
 
@@ -66,10 +64,8 @@ func RunPart1(logger *log.Logger) {
 			}
 
 			// scan down
-			for j := row; j < len(treeLinesSlice); j++ {
-				if row == j {
-					continue
-				} else if int(treeLinesSlice[j][col]-'0') >= height {
+			for j := row + 1; j < len(treeLinesSlice); j++ {
+				if int(treeLinesSlice[j][col]-'0') >= height {
 					break
 				}
 
@@ -80,6 +76,5 @@ func RunPart1(logger *log.Logger) {
 		}
 	}
 
-	// logger.Println(innerVisibleTreeMap)
 	logger.Println(visibleTrees + len(innerVisibleTreeMap))
 }

@@ -37,54 +37,54 @@ func RunPart2(logger *log.Logger) {
 			height := int(treeHeight - '0')
 
 			// scan left
-			var leftScenicScore = 1
-			for i := 0; i < col; i++ {
+			leftScenicScore := 0
+			for i := col - 1; i >= 0; i-- {
 				if int(treeLinesSlice[row][i]-'0') < height {
 					leftScenicScore = leftScenicScore + 1
 				} else {
+					leftScenicScore = leftScenicScore + 1
 					break
 				}
 			}
 
 			// scan right
-			var rightScenicScore = 1
-			for i := col; i < len(treeLine); i++ {
-				if col == i {
-					continue
-				} else if int(treeLinesSlice[row][i]-'0') < height {
+			rightScenicScore := 0
+			for i := col + 1; i < len(treeLine); i++ {
+				if int(treeLinesSlice[row][i]-'0') < height {
 					rightScenicScore = rightScenicScore + 1
 				} else {
+					rightScenicScore = rightScenicScore + 1
 					break
 				}
 			}
 
 			// scan up
-			var upScenicScore = 1
-			for j := 0; j < row; j++ {
+			upScenicScore := 0
+			for j := row - 1; j >= 0; j-- {
 				if int(treeLinesSlice[j][col]-'0') < height {
 					upScenicScore = upScenicScore + 1
 				} else {
+					upScenicScore = upScenicScore + 1
 					break
 				}
 			}
 
 			// scan down
-			var downScenicScore = 1
-			for j := row; j < len(treeLinesSlice); j++ {
-				if row == j {
-					continue
-				} else if int(treeLinesSlice[j][col]-'0') < height {
+			downScenicScore := 0
+			for j := row + 1; j < len(treeLinesSlice); j++ {
+				if int(treeLinesSlice[j][col]-'0') < height {
 					downScenicScore = downScenicScore + 1
 				} else {
+					downScenicScore = downScenicScore + 1
 					break
 				}
 			}
+
 			scenicScore := leftScenicScore * rightScenicScore * upScenicScore * downScenicScore
 			scenicScoreMap[fmt.Sprintf("%v,%v", row, col)] = scenicScore
 			maxScenicScore = max(maxScenicScore, scenicScore)
 		}
 	}
 
-	// logger.Println(scenicScoreMap)
 	logger.Println(maxScenicScore)
 }
