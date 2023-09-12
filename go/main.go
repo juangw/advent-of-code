@@ -9,6 +9,7 @@ import (
 	"go/2022/day_6"
 	"go/2022/day_7"
 	"go/2022/day_8"
+	"go/2022/day_9"
 	"log"
 	"os"
 )
@@ -31,4 +32,5 @@ func main() {
 	day_7.RunPart2(logger)
 	day_8.RunPart1(logger)
 	day_8.RunPart2(logger)
+	day_9.RunPart1(logger)
 }
