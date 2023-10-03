@@ -33,4 +33,5 @@ func main() {
 	day_8.RunPart1(logger)
 	day_8.RunPart2(logger)
 	day_9.RunPart1(logger)
+	day_9.RunPart2(logger)
 }

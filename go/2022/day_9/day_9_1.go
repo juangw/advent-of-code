@@ -26,10 +26,10 @@ func RunPart1(logger *log.Logger) {
 
 	// mapping of directions
 	diffs := map[string][2]int{
-		"U": {1, 0},
-		"D": {-1, 0},
-		"L": {0, -1},
-		"R": {0, 1},
+		"U": {0, 1},
+		"D": {0, -1},
+		"L": {-1, 0},
+		"R": {1, 0},
 	}
 
 	visited := map[[2]int]int{
