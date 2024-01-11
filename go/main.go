@@ -1,17 +1,17 @@
 package main
 
 import (
-	"go/2022/day_1"
-	"go/2022/day_10"
-	"go/2022/day_2"
-	"go/2022/day_3"
-	"go/2022/day_4"
-	"go/2022/day_5"
-	"go/2022/day_6"
-	"go/2022/day_7"
-	"go/2022/day_8"
-	"go/2022/day_9"
-	day_1_2023 "go/2023/day_1"
+	"github.com/juangw/advent-of-code/go/2022/day_1"
+	"github.com/juangw/advent-of-code/go/2022/day_10"
+	"github.com/juangw/advent-of-code/go/2022/day_2"
+	"github.com/juangw/advent-of-code/go/2022/day_3"
+	"github.com/juangw/advent-of-code/go/2022/day_4"
+	"github.com/juangw/advent-of-code/go/2022/day_5"
+	"github.com/juangw/advent-of-code/go/2022/day_6"
+	"github.com/juangw/advent-of-code/go/2022/day_7"
+	"github.com/juangw/advent-of-code/go/2022/day_8"
+	"github.com/juangw/advent-of-code/go/2022/day_9"
+	day_1_2023 "github.com/juangw/advent-of-code/go/2023/day_1"
 	"log"
 	"os"
 )
