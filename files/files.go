@@ -2,13 +2,14 @@ package files
 
 import (
 	"io/ioutil"
-    "fmt"
+	"log"
+	"strings"
 )
 
-func ReadFile(filename string) []byte {
+func ReadFile(filename string) []string {
 	lines, err := ioutil.ReadFile(filename)
 	if err != nil {
-		fmt.Print("unable to read file: %v", err)
+		log.Fatalf("unable to read file: %v", err)
 	}
-	return lines
+	return strings.Split(strings.Trim(string(lines), "\n"), "\n")
 }

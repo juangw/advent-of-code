@@ -1,4 +1,4 @@
-package year_2022_day_1
+package day_1
 
 import (
 	"io/ioutil"
