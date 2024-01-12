@@ -41,7 +41,6 @@ func RunPart1(logger *log.Logger) {
 	// now that we know where all numbers are lets check if any symbols
 	// are adjacent to them
 	var validNumbers []int
-	logger.Println(allNumbers)
 	for _, num := range allNumbers {
 		// scan in row above
 		rowAbove := num.row - 1
@@ -93,9 +92,6 @@ func RunPart1(logger *log.Logger) {
 
 		if isValidAbove || isValidBelow || isValidLeft || isValidRight {
 			validNumbers = append(validNumbers, cast.ToInt(num.value))
-			logger.Printf("valid %v", num.value)
-		} else {
-			logger.Printf("invalid %v", num.value)
 		}
 	}
 

@@ -49,5 +49,6 @@ func main() {
 		day_2_2023.RunPart1(logger)
 		day_2_2023.RunPart2(logger)
 		day_3_2023.RunPart1(logger)
+		day_3_2023.RunPart2(logger)
 	}
 }
