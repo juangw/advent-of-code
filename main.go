@@ -12,6 +12,7 @@ import (
 	"github.com/juangw/advent-of-code/2022/day_8"
 	"github.com/juangw/advent-of-code/2022/day_9"
 	day_1_2023 "github.com/juangw/advent-of-code/2023/day_1"
+	day_2_2023 "github.com/juangw/advent-of-code/2023/day_2"
 	"log"
 	"os"
 )
@@ -44,5 +45,7 @@ func main() {
 	} else if yearArg == "2023" {
 		day_1_2023.RunPart1(logger)
 		day_1_2023.RunPart2(logger)
+		day_2_2023.RunPart1(logger)
+		day_2_2023.RunPart2(logger)
 	}
 }

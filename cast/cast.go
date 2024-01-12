@@ -8,7 +8,7 @@ import (
 func ToInt(char string) int {
 	v, err := strconv.Atoi(char)
 	if err != nil {
-		log.Fatal("unable to convert char value to int")
+		log.Fatalf("unable to convert char value: %v to int", char)
 	}
 	return v
 }
