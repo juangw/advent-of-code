@@ -23,3 +23,10 @@ func MultiplyMapValues(mapper map[string]int) int {
 	}
 	return total
 }
+
+func AbsInt(in int) int {
+	if in < 0 {
+		return -in
+	}
+	return in
+}

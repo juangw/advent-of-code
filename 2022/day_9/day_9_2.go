@@ -2,6 +2,7 @@ package day_9
 
 import (
 	"fmt"
+	"github.com/juangw/advent-of-code/math"
 	"io/ioutil"
 	"log"
 	"strconv"
@@ -81,13 +82,13 @@ func RunPart2(logger *log.Logger) {
 				xDiff := nextTailNode.position[0] - nextTailNode.next.position[0]
 				yDiff := nextTailNode.position[1] - nextTailNode.next.position[1]
 
-				if AbsInt(xDiff) > 1 && AbsInt(yDiff) > 1 {
+				if math.AbsInt(xDiff) > 1 && math.AbsInt(yDiff) > 1 {
 					nextTailNode.next.position[0] += xDiff / 2
 					nextTailNode.next.position[1] += yDiff / 2
-				} else if AbsInt(xDiff) > 1 {
+				} else if math.AbsInt(xDiff) > 1 {
 					nextTailNode.next.position[0] += xDiff / 2
 					nextTailNode.next.position[1] += yDiff
-				} else if AbsInt(yDiff) > 1 {
+				} else if math.AbsInt(yDiff) > 1 {
 					nextTailNode.next.position[1] += yDiff / 2
 					nextTailNode.next.position[0] += xDiff
 				} else {

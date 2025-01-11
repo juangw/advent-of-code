@@ -1,6 +1,7 @@
 package day_9
 
 import (
+	"github.com/juangw/advent-of-code/math"
 	"io/ioutil"
 	"log"
 	"strconv"
@@ -54,14 +55,14 @@ func RunPart1(logger *log.Logger) {
 			xDiff := head[0] - tail[0]
 			yDiff := head[1] - tail[1]
 
-			if AbsInt(xDiff) > 1 {
+			if math.AbsInt(xDiff) > 1 {
 				// move tail x coord if it needs to catch up
 				tail[0] += diff[0]
 				// account for diagonal adjustment, same math... add y diff
 				if yDiff != 0 {
 					tail[1] += yDiff
 				}
-			} else if AbsInt(yDiff) > 1 {
+			} else if math.AbsInt(yDiff) > 1 {
 				// move tail y coord if it needs to catch up
 				tail[1] += diff[1]
 				// account for diagonal adjustment, same math... add x diff

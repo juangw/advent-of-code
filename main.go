@@ -53,6 +53,7 @@ func main() {
 		day_3_2023.RunPart2(logger)
 	} else if yearArg == "2024" {
 		day_1_2024.RunPart1(logger)
-		day_1_2024.RunPart2(logger)
+		day_1_2024.RunPart2(logger, false)
+		day_1_2024.RunPart2(logger, true)
 	}
 }
