@@ -16,6 +16,7 @@ import (
 	day_3_2023 "github.com/juangw/advent-of-code/2023/day_3"
 	day_1_2024 "github.com/juangw/advent-of-code/2024/day_1"
 	day_2_2024 "github.com/juangw/advent-of-code/2024/day_2"
+	day_3_2024 "github.com/juangw/advent-of-code/2024/day_3"
 	"log"
 	"os"
 )
@@ -57,5 +58,6 @@ func main() {
 		day_1_2024.RunPart2(logger)
 		day_2_2024.RunPart1(logger)
 		day_2_2024.RunPart2(logger)
+		day_3_2024.RunPart1(logger)
 	}
 }
