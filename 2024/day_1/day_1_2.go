@@ -1,81 +1,45 @@
 package day_1
 
 import (
-	"github.com/juangw/advent-of-code/cast"
+    "github.com/juangw/advent-of-code/cast"
 	"github.com/juangw/advent-of-code/files"
-	"github.com/juangw/advent-of-code/math"
+    "strings"
 	"log"
-	"strings"
 )
 
-func RunPart2(logger *log.Logger, tolerateBadLevel bool) {
-	reports := files.ReadFile("./2024/day_1/day_2.txt")
-
-	minDiff := 1
-	maxDiff := 3
-
-	safeReports := 0
-	for _, reportLevel := range reports {
-		stringLevels := strings.Split(reportLevel, " ")
-
-		intLevels := make([]int, len(stringLevels))
-		for stringLevelIndex, stringLevel := range stringLevels {
-			intLevel := cast.ToInt(stringLevel)
-			intLevels[stringLevelIndex] = intLevel
-		}
-
-		isSafe := isLevelSafe(intLevels, minDiff, maxDiff)
-		if isSafe {
-			safeReports++
-		} else if tolerateBadLevel {
-			// Brute force removing one level at a time
-			for intLevelIndex := range intLevels {
-				intLevelsCopy := make([]int, len(intLevels))
-				copy(intLevelsCopy, intLevels)
-				newIntLevels := append(intLevelsCopy[:intLevelIndex], intLevelsCopy[intLevelIndex+1:]...)
-				isSafeWithRemoval := isLevelSafe(newIntLevels, minDiff, maxDiff)
-				if isSafeWithRemoval {
-					safeReports++
-					break
-				}
-			}
-		}
+func RunPart2(logger *log.Logger) {
+	lines := files.ReadFile("./2024/day_1/day_1.txt")
+	total := 0
+    totalLocations := len(lines)
+    leftSlice := make([]int, totalLocations)
+    rightSlice := make([]int, totalLocations)
+	for lineIndex, line := range lines {
+        split := strings.Split(line, "   ")
+        if len(split) != 2 {
+			logger.Fatal("Invalid input string")
+        }
+        leftSlice[lineIndex] = cast.ToInt(split[0])
+        rightSlice[lineIndex] = cast.ToInt(split[1])
 	}
 
-	logger.Println(safeReports)
-}
+    similarityScoreMap := make(map[int]int)
+    for _, leftValue:= range leftSlice {
+        similarityScore := 0
 
-func isLevelSafe(intLevels []int, minDiff int, maxDiff int) bool {
-	isLevelSafe := true
-	isAscending := true
-	for intLevelIndex, intLevel := range intLevels {
-		if intLevelIndex == 0 {
-			continue
-		}
+        if _, ok := similarityScoreMap[leftValue]; ok {
+            total += similarityScoreMap[leftValue]
+            continue
+        }
 
-		// Determine if the levels are ascending or descending
-		if intLevelIndex == 1 {
-			if intLevel < intLevels[intLevelIndex-1] {
-				isAscending = false
-			} else {
-				isAscending = true
-			}
-		}
+        for _, rightValue := range rightSlice {
+            if leftValue == rightValue {
+                similarityScore += leftValue
+            }
+        }
 
-		if math.AbsInt(intLevel-intLevels[intLevelIndex-1]) >= minDiff && math.AbsInt(intLevel-intLevels[intLevelIndex-1]) <= maxDiff {
-			if isAscending && intLevel < intLevels[intLevelIndex-1] {
-				isLevelSafe = false
-				break
-			} else if !isAscending && intLevel > intLevels[intLevelIndex-1] {
-				isLevelSafe = false
-				break
-			}
-			continue
-		} else {
-			isLevelSafe = false
-			break
-		}
-	}
+        total += similarityScore
+        similarityScoreMap[leftValue] = similarityScore
+    }
 
-	return isLevelSafe
+	logger.Println(total)
 }
