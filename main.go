@@ -59,5 +59,6 @@ func main() {
 		day_2_2024.RunPart1(logger)
 		day_2_2024.RunPart2(logger)
 		day_3_2024.RunPart1(logger)
+		day_3_2024.RunPart2(logger)
 	}
 }
