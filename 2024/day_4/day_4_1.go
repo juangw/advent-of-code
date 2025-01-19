@@ -9,14 +9,18 @@ import (
 func RunPart1(logger *log.Logger) {
 	wordSearch := files.ReadFile("./2024/day_4/day_4.txt")
 
+	xmasLength := 4
+	lineCount := 0
+	columnCount := 0
+	rightDiagonalCount := 0
+	leftDiagonalCount := 0
 	totalXmas := 0
 
 	// Check xmas by line
 	for _, wordLine := range wordSearch {
-		containsXmas := strings.Contains(wordLine, "XMAS") || strings.Contains(wordLine, "SAMX")
-		if containsXmas {
-			totalXmas++
-		}
+		xmasCount := strings.Count(wordLine, "XMAS")
+		samxCount := strings.Count(wordLine, "SAMX")
+		lineCount += xmasCount + samxCount
 	}
 
 	// Check xmas by column
@@ -25,36 +29,41 @@ func RunPart1(logger *log.Logger) {
 		for j := 0; j < len(wordSearch); j++ {
 			wordColumn += string(wordSearch[j][i])
 		}
-		containsXmas := strings.Contains(wordColumn, "XMAS") || strings.Contains(wordColumn, "SAMX")
-		if containsXmas {
-			totalXmas++
-		}
+		xmasCount := strings.Count(wordColumn, "XMAS")
+		samxCount := strings.Count(wordColumn, "SAMX")
+		columnCount += xmasCount + samxCount
 	}
 
 	// check xmas by diagonal
-	for i := 0; i < len(wordSearch); i++ {
-		wordDiagonalUpRight := ""
-		for j := 0; j < len(wordSearch); j++ {
-			if i+j < len(wordSearch) {
-				wordDiagonalUpRight += string(wordSearch[i+j][j])
-			}
-		}
-		containsXmas := strings.Contains(wordDiagonalUpRight, "XMAS") || strings.Contains(wordDiagonalUpRight, "SAMX")
-		if containsXmas {
-			totalXmas++
-		}
+	for row := 0; row < len(wordSearch); row++ {
+		for column := 0; column < len(wordSearch); column++ {
 
-		wordDiagonalDownRight := ""
-		for j := 0; j < len(wordSearch); j++ {
-			if i-j >= 0 {
-				wordDiagonalDownRight += string(wordSearch[i-j][j])
+			wordRightDiagonal := ""
+			if xmasLength <= (row+1) && (column+xmasLength) <= len(wordSearch[0]) {
+				rowCopy := row
+				columnCopy := column
+				for k := 0; rowCopy-k >= 0 && (columnCopy+k) < len(wordSearch[0]) && k < xmasLength; k++ {
+					wordRightDiagonal += string(wordSearch[rowCopy-k][columnCopy+k])
+				}
+				xmasCount := strings.Count(wordRightDiagonal, "XMAS")
+				samxCount := strings.Count(wordRightDiagonal, "SAMX")
+				rightDiagonalCount += xmasCount + samxCount
 			}
-		}
-		containsXmas = strings.Contains(wordDiagonalDownRight, "XMAS") || strings.Contains(wordDiagonalDownRight, "SAMX")
-		if containsXmas {
-			totalXmas++
+
+			wordDiagonalUpLeft := ""
+			if xmasLength <= (row+1) && ((column+1)-xmasLength) >= 0 {
+				rowCopy := row
+				columnCopy := column
+				for k := 0; rowCopy-k >= 0 && (columnCopy-k) >= 0 && k < xmasLength; k++ {
+					wordDiagonalUpLeft += string(wordSearch[rowCopy-k][columnCopy-k])
+				}
+				xmasCount := strings.Count(wordDiagonalUpLeft, "XMAS")
+				samxCount := strings.Count(wordDiagonalUpLeft, "SAMX")
+				leftDiagonalCount += xmasCount + samxCount
+			}
 		}
 	}
 
+	totalXmas = lineCount + columnCount + rightDiagonalCount + leftDiagonalCount
 	logger.Println(totalXmas)
 }
